@@ -1,0 +1,7 @@
+id = "mql5-zed-extension"
+name = "MQL5 Zed Extension"
+version = "0.1.0"
+schema_version = 1
+authors = ["chaploud <kudou-s0camfci76w@outlook.com"]
+description = "MQL5 Zed Extension"
+repository = "https://github.com/chaploud/MQL5_Zed_Extension"
