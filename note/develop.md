@@ -19,3 +19,7 @@
 
 - [zed extensionのページ](https://zed.dev/docs/extensions/languages)を読んでいる
 - Zigの拡張機能のコードを写した
+- Javaの拡張機能も真似する
+- Tree-sitterでMQL5の文法を解析するために勉強しなければなりません
+- その後、Language Serverの実装に移る
+- その後、Zedの拡張機能に組み込む
