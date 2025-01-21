@@ -6,4 +6,4 @@ MQL5 Zed Extension is a language extension for Zed text editor that provides syn
 
 ## Link
 
-- [tree-sitter-mql5]()
+- [tree-sitter-mql5](https://github.com/chaploud/tree-sitter-mql5)
