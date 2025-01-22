@@ -1,36 +1,13 @@
 {
   "languages": {
-    "Markdown": {
-      "tab_size": 2,
-      "formatter": "prettier"
-    },
-    "TOML": {
-      "formatter": "prettier",
-      "format_on_save": "off"
-    },
-    "YAML": {
-      "tab_size": 2,
-      "formatter": "prettier"
-    },
     "JSON": {
-      "tab_size": 2,
-      "preferred_line_length": 100,
-      "formatter": "prettier"
+      "preferred_line_length": 100
     },
     "JSONC": {
-      "tab_size": 2,
-      "preferred_line_length": 100,
-      "formatter": "prettier"
-    },
-    "JavaScript": {
-      "tab_size": 2,
-      "formatter": "prettier"
-    },
-    "CSS": {
-      "tab_size": 2,
-      "formatter": "prettier"
+      "preferred_line_length": 100
     },
     "Rust": {
+      "tab_size": 4,
       "tasks": {
         "variables": {
           "RUST_DEFAULT_PACKAGE_RUN": "zed"
@@ -42,8 +19,10 @@
     "Dockerfile": ["Dockerfile*[!dockerignore]"],
     "Git Ignore": ["dockerignore"]
   },
+  "tab_size": 2,
   "hard_tabs": false,
   "formatter": "auto",
+  "format_on_save": "on",
   "remove_trailing_whitespace_on_save": true,
   "ensure_final_newline_on_save": true
 }

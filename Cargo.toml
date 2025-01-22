@@ -1,11 +1,9 @@
 [package]
-name = "mql5_zed_extension"
+name = "mql5"
 version = "0.1.0"
 edition = "2021"
-license = "Apache-2.0"
 
 [lib]
-path = "src/mql5.rs"
 crate-type = ["cdylib"]
 
 [dependencies]

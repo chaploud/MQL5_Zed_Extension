@@ -10,6 +10,6 @@ repository = "https://github.com/chaploud/MQL5_Zed_Extension"
 repository = "https://github.com/chaploud/tree-sitter-mql5"
 # commit = ""
 
-# [language_servers.mql5]
-# name = "mql5"
-# language = "MQL5"
+[language_servers.mql5]
+name = "MQL5 Language Server"
+language = "MQL5"
