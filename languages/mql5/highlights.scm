@@ -1,295 +1,230 @@
-; Variables
-
 (identifier) @variable
+(field_identifier) @property
+(namespace_identifier) @namespace
 
-; Parameters
+(concept_definition
+    (identifier) @concept)
 
-(parameter
-  name: (identifier) @variable.parameter)
-
-; Types
-
-(parameter
-  type: (identifier) @type)
-
-((identifier) @type
-  (#match? @type "^[A-Z_][a-zA-Z0-9_]*"))
-
-(variable_declaration
-  (identifier) @type
-  "="
-  [
-    (struct_declaration)
-    (enum_declaration)
-    (union_declaration)
-    (opaque_declaration)
-  ])
-
-[
-  (builtin_type)
-  "anyframe"
-] @type.builtin
-
-; Constants
-
-((identifier) @constant
-  (#match? @constant "^[A-Z][A-Z_0-9]+$"))
-
-[
-  "null"
-  "unreachable"
-  "undefined"
-] @constant.builtin
-
-(field_expression
-  .
-  member: (identifier) @constant)
-
-(enum_declaration
-  (container_field
-    type: (identifier) @constant))
-
-; Labels
-
-(block_label (identifier) @label)
-
-(break_label (identifier) @label)
-
-; Fields
-
-(field_initializer
-  .
-  (identifier) @variable.member)
-
-(field_expression
-  (_)
-  member: (identifier) @property)
-
-(field_expression
-  (_)
-  member: (identifier) @type (#match? @type "^[A-Z_][a-zA-Z0-9_]*"))
-
-(container_field
-  name: (identifier) @property)
-
-(initializer_list
-  (assignment_expression
-      left: (field_expression
-              .
-              member: (identifier) @property)))
-
-; Functions
-
-(builtin_identifier) @function.builtin
 
 (call_expression
-  function: (identifier) @function.call)
+  function: (qualified_identifier
+    name: (identifier) @function))
+
+(call_expression
+  (qualified_identifier
+    (identifier) @function.call))
+
+(call_expression
+  (qualified_identifier
+    (qualified_identifier
+      (identifier) @function.call)))
+
+(call_expression
+  (qualified_identifier
+    (qualified_identifier
+      (qualified_identifier
+        (identifier) @function.call))))
+
+((qualified_identifier
+  (qualified_identifier
+    (qualified_identifier
+      (qualified_identifier
+        (identifier) @function.call)))) @_parent
+  (#has-ancestor? @_parent call_expression))
+
+(call_expression
+  function: (identifier) @function)
 
 (call_expression
   function: (field_expression
-    member: (identifier) @function.call))
+    field: (field_identifier) @function))
 
-(function_declaration
+(preproc_function_def
+  name: (identifier) @function.special)
+
+(template_function
   name: (identifier) @function)
 
-; Modules
+(template_method
+  name: (field_identifier) @function)
 
-(variable_declaration
-  (identifier) @module
-  (builtin_function
-    (builtin_identifier) @keyword.import
-    (#any-of? @keyword.import "@import" "@cImport")))
+(function_declarator
+  declarator: (identifier) @function)
 
-; Builtins
+(function_declarator
+  declarator: (qualified_identifier
+    name: (identifier) @function))
+
+(function_declarator
+  declarator: (field_identifier) @function)
+
+(operator_name
+  (identifier)? @operator) @function
+
+(destructor_name (identifier) @function)
+
+((namespace_identifier) @type
+ (#match? @type "^[A-Z]"))
+
+(auto) @type
+(type_identifier) @type
+type :(primitive_type) @type.primitive
+
+(requires_clause
+    constraint: (template_type
+        name: (type_identifier) @concept))
+
+(attribute
+    name: (identifier) @keyword)
+
+((identifier) @constant
+ (#match? @constant "^_*[A-Z][A-Z\\d_]*$"))
+
+(statement_identifier) @label
+(this) @variable.special
+("static_assert") @function.builtin
 
 [
-  "c"
-  "..."
-] @variable.builtin
-
-((identifier) @variable.builtin
-  (#eq? @variable.builtin "_"))
-
-(calling_convention
-  (identifier) @variable.builtin)
-
-; Keywords
-
-[
-  "asm"
-  "defer"
-  "errdefer"
-  "test"
-  "error"
-  "const"
-  "var"
+  "alignas"
+  "alignof"
+  "break"
+  "case"
+  "catch"
+  "class"
+  "co_await"
+  "co_return"
+  "co_yield"
+  "concept"
+  "constexpr"
+  "continue"
+  "decltype"
+  "default"
+  "delete"
+  "do"
+  "else"
+  "enum"
+  "explicit"
+  "extern"
+  "final"
+  "for"
+  "friend"
+  "if"
+  "inline"
+  "namespace"
+  "new"
+  "noexcept"
+  "override"
+  "private"
+  "protected"
+  "public"
+  "requires"
+  "return"
+  "sizeof"
+  "struct"
+  "switch"
+  "template"
+  "throw"
+  "try"
+  "typedef"
+  "typename"
+  "union"
+  "using"
+  "virtual"
+  "while"
+  (sized_type_specifier)
+  (storage_class_specifier)
+  (type_qualifier)
 ] @keyword
 
 [
-  "struct"
-  "union"
-  "enum"
-  "opaque"
-] @keyword.type
-
-[
-  "async"
-  "await"
-  "suspend"
-  "nosuspend"
-  "resume"
-] @keyword.coroutine
-
-"fn" @keyword.function
-
-[
-  "and"
-  "or"
-  "orelse"
-] @keyword.operator
-
-"return" @keyword.return
-
-[
-  "if"
-  "else"
-  "switch"
-] @keyword.conditional
-
-[
-  "for"
-  "while"
-  "break"
-  "continue"
-] @keyword.repeat
-
-[
-  "usingnamespace"
-  "export"
-] @keyword.import
-
-[
-  "try"
-  "catch"
-] @keyword.exception
-
-[
-  "volatile"
-  "allowzero"
-  "noalias"
-  "addrspace"
-  "align"
-  "callconv"
-  "linksection"
-  "pub"
-  "inline"
-  "noinline"
-  "extern"
-  "comptime"
-  "packed"
-  "threadlocal"
-] @keyword.modifier
-
-; Operator
-
-[
-  "="
-  "*="
-  "*%="
-  "*|="
-  "/="
-  "%="
-  "+="
-  "+%="
-  "+|="
-  "-="
-  "-%="
-  "-|="
-  "<<="
-  "<<|="
-  ">>="
-  "&="
-  "^="
-  "|="
-  "!"
-  "~"
-  "-"
-  "-%"
-  "&"
-  "=="
-  "!="
-  ">"
-  ">="
-  "<="
-  "<"
-  "&"
-  "^"
-  "|"
-  "<<"
-  ">>"
-  "<<|"
-  "+"
-  "++"
-  "+%"
-  "-%"
-  "+|"
-  "-|"
-  "*"
-  "/"
-  "%"
-  "**"
-  "*%"
-  "*|"
-  "||"
-  ".*"
-  ".?"
-  "?"
-  ".."
-] @operator
-
-; Literals
-
-(character) @string
-
-([
-  (string)
-  (multiline_string)
-] @string
-  (#set! "priority" 95))
-
-(integer) @number
-
-(float) @number.float
-
-(boolean) @boolean
-
-(escape_sequence) @string.escape
-
-; Punctuation
-
-[
-  "["
-  "]"
-  "("
-  ")"
-  "{"
-  "}"
-] @punctuation.bracket
-
-[
-  ";"
-  "."
-  ","
-  ":"
-  "=>"
-  "->"
-] @punctuation.delimiter
-
-(payload "|" @punctuation.bracket)
-
-; Comments
+  "#define"
+  "#elif"
+  "#else"
+  "#endif"
+  "#if"
+  "#ifdef"
+  "#ifndef"
+  "#include"
+  (preproc_directive)
+] @keyword
 
 (comment) @comment
 
-((comment) @comment.documentation
-  (#match? @comment.documentation "^//(/|!)"))
+[
+  (true)
+  (false)
+  (null)
+  ("nullptr")
+] @constant
+
+(number_literal) @number
+
+[
+  (string_literal)
+  (system_lib_string)
+  (char_literal)
+  (raw_string_literal)
+] @string
+
+[
+  ","
+  ":"
+  "::"
+  ";"
+  (raw_string_delimiter)
+] @punctuation.delimiter
+
+[
+  "{"
+  "}"
+  "("
+  ")"
+  "["
+  "]"
+] @punctuation.bracket
+
+[
+  "."
+  ".*"
+  "->*"
+  "~"
+  "-"
+  "--"
+  "-="
+  "->"
+  "="
+  "!"
+  "!="
+  "|"
+  "|="
+  "||"
+  "^"
+  "^="
+  "&"
+  "&="
+  "&&"
+  "+"
+  "++"
+  "+="
+  "*"
+  "*="
+  "/"
+  "/="
+  "%"
+  "%="
+  "<<"
+  "<<="
+  ">>"
+  ">>="
+  "<"
+  "=="
+  ">"
+  "<="
+  ">="
+  "<=>"
+  "||"
+  "?"
+] @operator
+
+(conditional_expression ":" @operator)
+(user_defined_literal (literal_suffix) @operator)

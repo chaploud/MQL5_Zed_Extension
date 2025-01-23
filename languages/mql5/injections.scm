@@ -1,10 +1,11 @@
-((comment) @injection.content
-  (#set! injection.language "comment"))
+(preproc_def
+    value: (preproc_arg) @injection.content
+    (#set! injection.language "mql5"))
 
-; TODO: add when asm is added
-; (asm_output_item (string) @injection.content
-;   (#set! injection.language "asm"))
-; (asm_input_item (string) @injection.content
-;   (#set! injection.language "asm"))
-; (asm_clobbers (string) @injection.content
-;   (#set! injection.language "asm"))
+(preproc_function_def
+    value: (preproc_arg) @injection.content
+    (#set! injection.language "mql5"))
+
+(raw_string_literal
+  delimiter: (raw_string_delimiter) @injection.language
+  (raw_string_content) @injection.content)

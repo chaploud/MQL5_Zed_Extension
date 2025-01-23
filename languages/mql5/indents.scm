@@ -1,17 +1,7 @@
 [
-  (block)
-  (switch_expression)
-  (initializer_list)
-] @indent.begin
+    (field_expression)
+    (assignment_expression)
+] @indent
 
-(block
-  "}" @indent.end)
-
-(_ "[" "]" @end) @indent
 (_ "{" "}" @end) @indent
 (_ "(" ")" @end) @indent
-
-[
-  (comment)
-  (multiline_string)
-] @indent.ignore
