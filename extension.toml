@@ -6,10 +6,10 @@ authors = ["chaploud <kudou-s0camfci76w@outlook.com"]
 description = "MQL5 language support for Zed"
 repository = "https://github.com/chaploud/MQL5_Zed_Extension"
 
-[grammars.mql5]
-repository = "https://github.com/chaploud/tree-sitter-mql5"
+# [grammars.mql5]
+# repository = "https://github.com/chaploud/tree-sitter-mql5"
 # commit = ""
 
-[language_servers.mql5]
-name = "MQL5 Language Server"
-language = "MQL5"
+# [language_servers.mql5]
+# name = "MQL5 Language Server"
+# language = "MQL5"

@@ -1,7 +1,7 @@
 use std::fs;
 use zed_extension_api::{self as zed, serde_json, settings::LspSettings, LanguageServerId, Result};
 
-struct ZigExtension {
+struct Mql5Extension {
     cached_binary_path: Option<String>,
 }
 
@@ -12,7 +12,7 @@ struct ZlsBinary {
     environment: Option<Vec<(String, String)>>,
 }
 
-impl ZigExtension {
+impl Mql5Extension {
     fn language_server_binary(
         &mut self,
         language_server_id: &LanguageServerId,
@@ -135,7 +135,7 @@ impl ZigExtension {
     }
 }
 
-impl zed::Extension for ZigExtension {
+impl zed::Extension for Mql5Extension {
     fn new() -> Self {
         Self {
             cached_binary_path: None,
@@ -168,4 +168,4 @@ impl zed::Extension for ZigExtension {
     }
 }
 
-zed::register_extension!(ZigExtension);
+zed::register_extension!(Mql5Extension);
